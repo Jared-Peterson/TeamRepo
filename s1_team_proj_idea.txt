@@ -1,0 +1,10 @@
+﻿Task 1: Pick a Team
+Jared Peterson
+Tanya Olivas
+Kathleen Near
+Kurtlynd McLane
+
+Task 2: Pick Project Ideas
+Sudoku
+Personal Budgeting  System
+Maze Solver

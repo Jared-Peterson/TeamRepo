@@ -1,10 +1,11 @@
+package blah;
 //Class Project
 //CS371 - Software Development
 //
 //Authors: McLane, Kurt
 //		   Near, Kathleen
 //		   Olivas, Tanya
-//		   Peterson, Jare
+//		   Peterson, Jared
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -21,11 +22,13 @@ final class SudokuGrid extends JPanel {
 	private final JPanel gridPanel;
 	private final JPanel buttonPanel;
 	private final JPanel[][] sectionSquares;
+	private final String[][] boxInput;
 	
 	SudokuGrid(int size) {
 		this.grid = new JTextField[size][size];
 		this.gridPanel = new JPanel();
 		this.buttonPanel = new JPanel();
+		this.boxInput = new String[size][size];
 		
 		//Creates borders around each square and a thick border around each section
 		Border gridBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
@@ -44,6 +47,9 @@ final class SudokuGrid extends JPanel {
 				
 				JTextField field = new JTextField();
 				grid[row][col] = field;
+				
+				boxInput[row][col] =  field.getText();
+				System.out.println(boxInput[row][col]);
 				
 				field.setBorder(gridBorder);
 				field.setFont(ARIAL);
@@ -65,6 +71,7 @@ final class SudokuGrid extends JPanel {
 		}
 		
 		System.out.println("END");
+		
 		
 		//
 		this.sectionSquares = new JPanel[sectionSize][sectionSize];

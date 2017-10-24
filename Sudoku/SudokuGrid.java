@@ -17,6 +17,7 @@ final class SudokuGrid extends JPanel {
 	
 	//Grid variables
 	private static final Font ARIAL = new Font("Arial", Font.CENTER_BASELINE, 22);
+	private static final Font ARIAL_SM = new Font("Arial", Font.CENTER_BASELINE, 15);
 	private final JTextField[][] grid;
 	private final JPanel gridPanel;
 	private final JPanel[][] sectionSquares;
@@ -104,11 +105,22 @@ final class SudokuGrid extends JPanel {
 			}
 		}
 		
+		//Creates a "Solve" button of static dimensions and font size
 		this.solveButton = new JButton("Solve");
+		solveButton.setPreferredSize(new Dimension(125, 40));
+		solveButton.setFont(ARIAL_SM);
+		
+		//Creates a "Next Puzzle" button of static dimensions and font size
 		this.newPuzzleButton = new JButton("Next Puzzle");
+		newPuzzleButton.setPreferredSize(new Dimension(125, 40));
+		newPuzzleButton.setFont(ARIAL_SM);
 		
+		//Adds the buttons to the bottom of the screen, centered and separated by 40px
 		this.buttonPanel.add(solveButton, BorderLayout.CENTER);
+		buttonPanel.add(Box.createRigidArea(new Dimension(40,0)));
+		this.buttonPanel.add(newPuzzleButton, BorderLayout.CENTER);
 		
+		//Adds all items to the layout
 		this.setLayout(new BorderLayout());
 		this.add(gridPanel, BorderLayout.NORTH);
 		this.add(buttonPanel, BorderLayout.SOUTH);

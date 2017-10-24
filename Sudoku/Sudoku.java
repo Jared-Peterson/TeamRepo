@@ -1,4 +1,3 @@
-package blah;
 //Class Project
 //CS371 - Software Development
 //
@@ -87,3 +86,4 @@ public class Sudoku {
 		matrix[x][y] = value;
 	}
 }
+

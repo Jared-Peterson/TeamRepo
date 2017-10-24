@@ -15,25 +15,34 @@ import java.lang.*;
 
 final class SudokuGrid extends JPanel {
 	
+	//Grid variables
 	private static final Font ARIAL = new Font("Arial", Font.CENTER_BASELINE, 22);
-	
 	private final JTextField[][] grid;
 	private final JPanel gridPanel;
-	private final JPanel buttonPanel;
 	private final JPanel[][] sectionSquares;
-	private final String[][] boxInput;
+	
+	//Button variables
+	private final JPanel buttonPanel;
+	private final JButton solveButton;
+	private final JButton newPuzzleButton;
+	
+	//Input storage
+	private final String[][] numbersArr;
 	
 	SudokuGrid(int size) {
+		
+		//Variable instantiations
 		this.grid = new JTextField[size][size];
 		this.gridPanel = new JPanel();
 		this.buttonPanel = new JPanel();
-		this.boxInput = new String[size][size];
 		
-		//Creates borders around each square and a thick border around each section
+		this.numbersArr = new String[size][size];
+		
+		//Creates a thin border to be used for each square and a thick border to be used around each section
 		Border gridBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
 		Border sectionBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
 		
-		//Sets the individual box size to 60x60 pixels & the sections to sqrtxsqrt boxes
+		//Sets the individual box size to 60x60 pixels & the section size to a dynamic number of boxes based upon the dimensions
 		Dimension fieldSize = new Dimension(60, 60);
 		int sectionSize = (int) Math.sqrt(size);
 		
@@ -47,14 +56,15 @@ final class SudokuGrid extends JPanel {
 				JTextField field = new JTextField();
 				grid[row][col] = field;
 				
-				boxInput[row][col] =  field.getText();
-				System.out.println(boxInput[row][col]);
+				//numbersArr[row][col] =  field.getText();
+				//System.out.println(numbersArr[row][col]);
 				
 				field.setBorder(gridBorder);
 				field.setFont(ARIAL);
 				field.setHorizontalAlignment(JTextField.CENTER);
 				field.setPreferredSize(fieldSize);
 				
+				//Assigns a listener to each text field that ignores characters that aren’t digits or backspaces
 				field.addKeyListener(new java.awt.event.KeyAdapter() {
 		            public void keyPressed(java.awt.event.KeyEvent evt) {
 		            	
@@ -68,11 +78,9 @@ final class SudokuGrid extends JPanel {
 		        });
 			}
 		}
+		//System.out.println("END");
 		
-		System.out.println("END");
 		
-		
-		//
 		this.sectionSquares = new JPanel[sectionSize][sectionSize];
 		this.gridPanel.setLayout(new GridLayout(sectionSize, sectionSize));
 		
@@ -96,8 +104,14 @@ final class SudokuGrid extends JPanel {
 			}
 		}
 		
+		this.solveButton = new JButton("Solve");
+		this.newPuzzleButton = new JButton("Next Puzzle");
+		
+		this.buttonPanel.add(solveButton, BorderLayout.CENTER);
+		
 		this.setLayout(new BorderLayout());
 		this.add(gridPanel, BorderLayout.NORTH);
+		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
 	/*private void limitInput(java.awt.event.KeyEvent evt, JTextField textField) {  

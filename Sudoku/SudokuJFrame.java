@@ -21,6 +21,8 @@ public class SudokuJFrame {
 	* Adds a Sudoku grid to the JFrame
 	**/
 	public SudokuJFrame(int size) {
+
+        frame.getContentPane().removeAll();
 		buildMenu();
 		Container contentPane = frame.getContentPane();
 		contentPane.add(grid = new SudokuGrid(size));

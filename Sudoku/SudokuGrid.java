@@ -7,6 +7,7 @@
 //		   Peterson, Jared
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.*;
@@ -36,7 +37,6 @@ final class SudokuGrid extends JPanel {
 		this.grid = new JTextField[size][size];
 		this.gridPanel = new JPanel();
 		this.buttonPanel = new JPanel();
-		
 		this.numbersArr = new String[size][size];
 		
 		//Creates a thin border to be used for each square and a thick border to be used around each section
@@ -57,9 +57,6 @@ final class SudokuGrid extends JPanel {
 				JTextField field = new JTextField();
 				grid[row][col] = field;
 				
-				//numbersArr[row][col] =  field.getText();
-				//System.out.println(numbersArr[row][col]);
-				
 				field.setBorder(gridBorder);
 				field.setFont(ARIAL);
 				field.setHorizontalAlignment(JTextField.CENTER);
@@ -79,7 +76,6 @@ final class SudokuGrid extends JPanel {
 		        });
 			}
 		}
-		//System.out.println("END");
 		
 		
 		this.sectionSquares = new JPanel[sectionSize][sectionSize];
@@ -124,12 +120,28 @@ final class SudokuGrid extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.add(gridPanel, BorderLayout.NORTH);
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		
+		solveButton.addActionListener((ActionEvent e) -> {
+			for (int row = 0; row < size; ++row) {
+				for (int col = 0; col < size; ++col) {
+					numbersArr[row][col] =  grid[row][col].getText();
+				}
+			}
+			if(Solve.isSolved(numbersArr, size)) {
+				//do when solve is correct
+				System.out.println("The solution is correct!");
+			}
+			else {
+				//do when solve is incorrect
+				System.out.println("The solution is wrong.");
+			}
+	      });
+		
+		newPuzzleButton.addActionListener((ActionEvent e) -> {
+			//what to do when new puzzle button is pressed
+	      });
 	}
 	
-	/*private void limitInput(java.awt.event.KeyEvent evt, JTextField textField) {  
-		char c = evt.getKeyChar();
-		String s = Character.toString(c);
-		textField.setText("");
-	}*/
+	
 	
 }

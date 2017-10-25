@@ -7,6 +7,7 @@
 //		   Peterson, Jared
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.*;
@@ -36,7 +37,6 @@ final class SudokuGrid extends JPanel {
 		this.grid = new JTextField[size][size];
 		this.gridPanel = new JPanel();
 		this.buttonPanel = new JPanel();
-		
 		this.numbersArr = new String[size][size];
 		
 		//Creates a thin border to be used for each square and a thick border to be used around each section
@@ -57,9 +57,6 @@ final class SudokuGrid extends JPanel {
 				JTextField field = new JTextField();
 				grid[row][col] = field;
 				
-				//numbersArr[row][col] =  field.getText();
-				//System.out.println(numbersArr[row][col]);
-				
 				field.setBorder(gridBorder);
 				field.setFont(ARIAL);
 				field.setHorizontalAlignment(JTextField.CENTER);
@@ -79,7 +76,6 @@ final class SudokuGrid extends JPanel {
 		        });
 			}
 		}
-		//System.out.println("END");
 		
 		
 		this.sectionSquares = new JPanel[sectionSize][sectionSize];
@@ -110,14 +106,35 @@ final class SudokuGrid extends JPanel {
 		solveButton.setPreferredSize(new Dimension(125, 40));
 		solveButton.setFont(ARIAL_SM);
 		
+		//Reads in all numbers from the grid
+		solveButton.addActionListener((ActionEvent e) -> {
+			for (int row = 0; row < size; ++row) {
+				for (int col = 0; col < size; ++col) {
+					numbersArr[row][col] =  grid[row][col].getText();
+				}
+			}
+			if(Solver.isSolved(numbersArr, size)) {
+				//do when solve is correct
+				System.out.println("The solution is correct!");
+			}
+			else {
+				//do when solve is incorrect
+				System.out.println("The solution is wrong.");
+			}
+	      });
+		
 		//Creates a "Next Puzzle" button of static dimensions and font size
 		this.newPuzzleButton = new JButton("Next Puzzle");
 		newPuzzleButton.setPreferredSize(new Dimension(125, 40));
 		newPuzzleButton.setFont(ARIAL_SM);
 		
+		newPuzzleButton.addActionListener((ActionEvent e) -> {
+			JOptionPane.showMessageDialog(null, "Are you sure you wish to start a new puzzle?\nChanges will not be saved.");
+		});
+		
 		//Adds the buttons to the bottom of the screen, centered and separated by 40px
 		this.buttonPanel.add(solveButton, BorderLayout.CENTER);
-		buttonPanel.add(Box.createRigidArea(new Dimension(40,0)));
+		buttonPanel.add(Box.createRigidArea(new Dimension(15,0)));
 		this.buttonPanel.add(newPuzzleButton, BorderLayout.CENTER);
 		
 		//Adds all items to the layout
@@ -125,11 +142,4 @@ final class SudokuGrid extends JPanel {
 		this.add(gridPanel, BorderLayout.NORTH);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
-	/*private void limitInput(java.awt.event.KeyEvent evt, JTextField textField) {  
-		char c = evt.getKeyChar();
-		String s = Character.toString(c);
-		textField.setText("");
-	}*/
-	
 }

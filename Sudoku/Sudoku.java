@@ -70,7 +70,7 @@ public class Sudoku {
 	* Matrix element getter method
 	* @param x is the x-coordinate (row) of the element
 	* @param y is the y-coordinate (column) of the element
-	* The element value at the given coordinates is returned
+	* Returns the element value at the given coordinates
 	**/
 	public int get(int x, int y) {
 		return matrix[x][y];
@@ -86,4 +86,3 @@ public class Sudoku {
 		matrix[x][y] = value;
 	}
 }
-

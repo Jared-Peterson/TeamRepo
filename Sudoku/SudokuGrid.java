@@ -113,7 +113,7 @@ final class SudokuGrid extends JPanel {
 					numbersArr[row][col] =  grid[row][col].getText();
 				}
 			}
-			if(Solver.isSolved(numbersArr, size)) {
+			if(CrossChecker.checkSolution(numbersArr, size)) {
 				//do when solve is correct
 				System.out.println("The solution is correct!");
 			}

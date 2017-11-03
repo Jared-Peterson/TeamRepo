@@ -28,8 +28,28 @@ final class SudokuGrid extends JPanel {
 	private final JButton solveButton;
 	private final JButton newPuzzleButton;
 	
+	// Output 4x4 puzzle
+	// Re-format the formatting that suddenly stopped working
+	// Fix weird box thing (weird sizing literally every other switch to 4x4)
+	
 	//Input storage
-	private final String[][] numbersArr;
+	private final String[][] smNumbersArr = new String[][] {
+		{ "", "2", "1", ""},
+		{ "3", "", "", ""},
+		{ "", "", "", "1"},
+		{ "", "3", "4", ""}
+	};
+	private final String[][] numbersArr = new String[][] {
+		{ "7", "", "", "", "9", "8", "5", "6", ""},
+		{ "", "", "5", "", "", "", "", "", ""},
+		{ "", "6", "2", "", "1", "4", "3", "", ""},
+		{ "", "", "1", "3", "8", "7", "6", "", "9"},
+		{ "", "", "9", "", "", "", "7", "", ""},
+		{ "4", "", "8", "9", "6", "5", "1", "", ""},
+		{ "", "", "6", "4", "7", "", "2", "3", ""},
+		{ "", "", "", "", "", "", "8", "", ""},
+		{ "", "5", "7", "8", "2", "", "", "6", ""}
+	};
 	
 	SudokuGrid(int size) {
 		
@@ -37,7 +57,7 @@ final class SudokuGrid extends JPanel {
 		this.grid = new JTextField[size][size];
 		this.gridPanel = new JPanel();
 		this.buttonPanel = new JPanel();
-		this.numbersArr = new String[size][size];
+		//this.numbersArr = new String[size][size];
 		
 		//Creates a thin border to be used for each square and a thick border to be used around each section
 		Border gridBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
@@ -55,6 +75,10 @@ final class SudokuGrid extends JPanel {
 			for (int col = 0; col < size; ++col) {
 				
 				JTextField field = new JTextField();
+				if(!numbersArr[row][col].isEmpty()) {
+					field.setEditable(false);
+					field.setText(numbersArr[row][col]);
+				}
 				grid[row][col] = field;
 				
 				field.setBorder(gridBorder);
@@ -66,11 +90,11 @@ final class SudokuGrid extends JPanel {
 				field.addKeyListener(new java.awt.event.KeyAdapter() {
 		            public void keyPressed(java.awt.event.KeyEvent evt) {
 		            	
-		            	field.setText("");
+		            	//field.setText("");
 		            	char c = evt.getKeyChar();
 		            	
-		            	if(!Character.isDigit(c) && (c != evt.VK_BACK_SPACE))
-		            		field.setText("");
+		            	if(!Character.isDigit(c) || (c != evt.VK_BACK_SPACE))
+		            		evt.consume();
 		            }
 		            
 		        });

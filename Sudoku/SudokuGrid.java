@@ -6,13 +6,22 @@
 //		   Olivas, Tanya
 //		   Peterson, Jared
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
-import java.lang.*;
+import javax.swing.text.PlainDocument;
+
 
 final class SudokuGrid extends JPanel {
 	
@@ -28,27 +37,25 @@ final class SudokuGrid extends JPanel {
 	private final JButton solveButton;
 	private final JButton newPuzzleButton;
 	
-	// Output 4x4 puzzle
-	// Re-format the formatting that suddenly stopped working
-	// Fix weird box thing (weird sizing literally every other switch to 4x4)
+	//Allow num pad entries
 	
-	//Input storage
-	private final String[][] smNumbersArr = new String[][] {
-		{ "", "2", "1", ""},
-		{ "3", "", "", ""},
-		{ "", "", "", "1"},
-		{ "", "3", "4", ""}
+	//Puzzle options
+	private final String[][] fourByFourPrefill = new String[][] {
+		{ "",  "2", "1", ""  },
+		{ "3", "",  "",  ""  },
+		{ "",  "",  "",  "1" },
+		{ "",  "3", "4", ""  }
 	};
-	private final String[][] numbersArr = new String[][] {
-		{ "7", "", "", "", "9", "8", "5", "6", ""},
-		{ "", "", "5", "", "", "", "", "", ""},
-		{ "", "6", "2", "", "1", "4", "3", "", ""},
-		{ "", "", "1", "3", "8", "7", "6", "", "9"},
-		{ "", "", "9", "", "", "", "7", "", ""},
-		{ "4", "", "8", "9", "6", "5", "1", "", ""},
-		{ "", "", "6", "4", "7", "", "2", "3", ""},
-		{ "", "", "", "", "", "", "8", "", ""},
-		{ "", "5", "7", "8", "2", "", "", "6", ""}
+	private final String[][] nineByNinePrefill = new String[][] {
+		{ "7", "",  "",  "",  "9", "8", "5", "6", ""  },
+		{ "",  "",  "5", "",  "",  "",  "",  "",  ""  },
+		{ "",  "6", "2", "",  "1", "4", "3", "",  ""  },
+		{ "",  "",  "1", "3", "8", "7", "6", "",  "9" },
+		{ "",  "",  "9", "",  "",  "",  "7", "",  ""  },
+		{ "4", "",  "8", "9", "6", "5", "1", "",  ""  },
+		{ "",  "",  "6", "4", "7", "",  "2", "3", ""  },
+		{ "",  "",  "",  "",  "",  "",  "8", "",  ""  },
+		{ "",  "5", "7", "8", "2", "",  "",  "6", ""  }
 	};
 	
 	SudokuGrid(int size) {
@@ -57,7 +64,6 @@ final class SudokuGrid extends JPanel {
 		this.grid = new JTextField[size][size];
 		this.gridPanel = new JPanel();
 		this.buttonPanel = new JPanel();
-		//this.numbersArr = new String[size][size];
 		
 		//Creates a thin border to be used for each square and a thick border to be used around each section
 		Border gridBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
@@ -67,6 +73,14 @@ final class SudokuGrid extends JPanel {
 		Dimension fieldSize = new Dimension(60, 60);
 		int sectionSize = (int) Math.sqrt(size);
 		
+		//Sets the pre-made puzzle based upon grid size
+		String[][] numbersArr;
+		if(size == 9)
+			numbersArr = this.nineByNinePrefill;
+		else
+			numbersArr = this.fourByFourPrefill;
+		
+		
 		/**
 		* Loop initiates the array of text fields that makes up the grid.
 		* Each field is bordered and the text is centered.
@@ -74,30 +88,30 @@ final class SudokuGrid extends JPanel {
 		for (int row = 0; row < size; ++row) {
 			for (int col = 0; col < size; ++col) {
 				
+				//Creates a text field for each "box" with filtered input
 				JTextField field = new JTextField();
+				PlainDocument document = (PlainDocument) field.getDocument();
+			    document.setDocumentFilter(new FieldFilter(size));
+				
+			    //If there is a pre-set value for the given "box", display value and disallow editing
 				if(!numbersArr[row][col].isEmpty()) {
 					field.setEditable(false);
 					field.setText(numbersArr[row][col]);
 				}
 				grid[row][col] = field;
 				
+				//Formatting
 				field.setBorder(gridBorder);
 				field.setFont(ARIAL);
 				field.setHorizontalAlignment(JTextField.CENTER);
 				field.setPreferredSize(fieldSize);
 				
-				//Assigns a listener to each text field that ignores characters that aren’t digits or backspaces
+				//Replaces content upon keypressed
 				field.addKeyListener(new java.awt.event.KeyAdapter() {
-		            public void keyPressed(java.awt.event.KeyEvent evt) {
-		            	
-		            	//field.setText("");
-		            	char c = evt.getKeyChar();
-		            	
-		            	if(!Character.isDigit(c) || (c != evt.VK_BACK_SPACE))
-		            		evt.consume();
+					public void keyPressed(java.awt.event.KeyEvent evt) {
+		            	field.setText("");
 		            }
-		            
-		        });
+	        	});
 			}
 		}
 		
@@ -125,12 +139,12 @@ final class SudokuGrid extends JPanel {
 			}
 		}
 		
-		//Creates a "Solve" button of static dimensions and font size
+		//Creates a "Solve" button of static dimensions and defined font size
 		this.solveButton = new JButton("Solve");
 		solveButton.setPreferredSize(new Dimension(125, 40));
 		solveButton.setFont(ARIAL_SM);
 		
-		//Reads in all numbers from the grid
+		//Reads in grid contents
 		solveButton.addActionListener((ActionEvent e) -> {
 			for (int row = 0; row < size; ++row) {
 				for (int col = 0; col < size; ++col) {
@@ -143,27 +157,28 @@ final class SudokuGrid extends JPanel {
 			}
 			else {
 				//do when solve is incorrect
-				System.out.println("The solution is wrong.");
+				System.out.println("The solution is incorrect.");
 			}
 	      });
 		
-		//Creates a "Next Puzzle" button of static dimensions and font size
+		//Creates a "Next Puzzle" button of static dimensions and defined font size
 		this.newPuzzleButton = new JButton("Next Puzzle");
 		newPuzzleButton.setPreferredSize(new Dimension(125, 40));
 		newPuzzleButton.setFont(ARIAL_SM);
 		
+		//Verifies action with user
 		newPuzzleButton.addActionListener((ActionEvent e) -> {
 			JOptionPane.showMessageDialog(null, "Are you sure you wish to start a new puzzle?\nChanges will not be saved.");
 		});
 		
-		//Adds the buttons to the bottom of the screen, centered and separated by 40px
-		this.buttonPanel.add(solveButton, BorderLayout.CENTER);
-		buttonPanel.add(Box.createRigidArea(new Dimension(15,0)));
-		this.buttonPanel.add(newPuzzleButton, BorderLayout.CENTER);
 		
 		//Adds all items to the layout
 		this.setLayout(new BorderLayout());
 		this.add(gridPanel, BorderLayout.NORTH);
+		
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		this.buttonPanel.add(solveButton, BorderLayout.CENTER);
+		buttonPanel.add(Box.createRigidArea(new Dimension(15,0)));
+		this.buttonPanel.add(newPuzzleButton, BorderLayout.CENTER);
 	}
 }

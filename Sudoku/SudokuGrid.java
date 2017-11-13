@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -46,6 +47,71 @@ final class SudokuGrid extends JPanel {
 		{ "",  "",  "",  "1" },
 		{ "",  "3", "4", ""  }
 	};
+	
+	
+	private final String[][] fourByFourPrefill2 = new String[][] {
+		{ "",  "1", "", "3"  },
+		{ "", "",  "2",  ""  },
+		{ "",  "4",  "",  "" },
+		{ "1",  "", "3", ""  }
+	};
+	
+	private final String[][] fourByFourPrefill3 = new String[][] {
+		{ "2", "", "1", ""  },
+		{ "", "",  "",  "4"  },
+		{ "3",  "",  "",  "" },
+		{ "",  "2", "", "1"  }
+	};
+	
+	private final String[][] fourByFourPrefill4 = new String[][] {
+		{ "",  "4", "2", ""  },
+		{ "", "",  "",  "1"  },
+		{ "4",  "",  "",  "" },
+		{ "",  "3", "1", ""  }
+	};
+	
+	private final String[][] fourByFourPrefill5 = new String[][] {
+		{ "",  "3", "", ""  },
+		{ "2", "",  "",  "3"  },
+		{ "1",  "",  "",  "4" },
+		{ "",  "", "1", ""  }
+	};
+	
+	private final String[][] fourByFourPrefill6 = new String[][] {
+		{ "",  "4", "3", ""  },
+		{ "", "",  "",  "4"  },
+		{ "2",  "",  "",  "" },
+		{ "",  "1", "2", ""  }
+	};
+	
+	private final String[][] fourByFourPrefill7 = new String[][] {
+		{ "",  "1", "", ""  },
+		{ "4", "",  "",  "1"  },
+		{ "3",  "",  "",  "2" },
+		{ "",  "", "3", ""  }
+	};
+	
+	private final String[][] fourByFourPrefill8 = new String[][] {
+		{ "",  "3", "", "4"  },
+		{ "", "",  "3",  ""  },
+		{ "",  "2",  "",  "" },
+		{ "1", "", "2", ""  }
+	};
+	
+	private final String[][] fourByFourPrefill9 = new String[][] {
+		{ "2",  "", "", "3"  },
+		{ "", "",  "2",  ""  },
+		{ "",  "1",  "",  "" },
+		{ "4",  "", "", "1"  }
+	};
+	
+	private final String[][] fourByFourPrefill10 = new String[][] {
+		{ "",  "", "2", ""  },
+		{ "2", "",  "",  "1"  },
+		{ "4",  "",  "",  "3" },
+		{ "",  "3", "", ""  }
+	};
+	
 	private final String[][] nineByNinePrefill = new String[][] {
 		{ "7", "",  "",  "",  "9", "8", "5", "6", ""  },
 		{ "",  "",  "5", "",  "",  "",  "",  "",  ""  },
@@ -58,6 +124,54 @@ final class SudokuGrid extends JPanel {
 		{ "",  "5", "7", "8", "2", "",  "",  "6", ""  }
 	};
 	
+	private final String[][] nineByNinePrefill2 = new String[][] {
+		{ "6", "",  "7",  "8",  "4", "", "", "", ""  },
+		{ "",  "3",  "", "",  "5",  "",  "",  "7",  ""  },
+		{ "",  "4", "5", "",  "", "2", "6", "3",  "8"  },
+		{ "",  "",  "9", "5", "3", "", "", "",  "6" },
+		{ "7",  "",  "", "",  "",  "",  "", "",  "5"  },
+		{ "5", "",  "", "", "8", "1", "7", "",  ""  },
+		{ "3",  "5",  "6", "9", "", "",  "1", "4", ""  },
+		{ "",  "8",  "",  "",  "1",  "",  "", "6",  ""  },
+		{ "",  "", "", "", "6", "4",  "5",  "", "3"  }
+	};
+	
+	private final String[][] nineByNinePrefill3 = new String[][] {
+		{ "", "",  "",  "2",  "7", "8", "", "", "4"  },
+		{ "7",  "",  "", "",  "",  "",  "",  "3",  ""  },
+		{ "",  "4", "", "3",  "", "5", "", "9",  "7"  },
+		{ "3",  "",  "7", "5", "", "", "4", "",  "1" },
+		{ "2",  "",  "", "1",  "",  "9",  "", "",  "6"  },
+		{ "1", "",  "4", "", "", "7", "9", "",  "2"  },
+		{ "6",  "5",  "", "7", "", "4",  "", "2", ""  },
+		{ "",  "7",  "",  "",  "",  "",  "", "",  "5"  },
+		{ "9",  "", "", "6", "5", "1",  "",  "", ""  }
+	};
+	
+	private final String[][] nineByNinePrefill4 = new String[][] {
+		{ "", "",  "",  "",  "5", "2", "9", "", ""  },
+		{ "2",  "",  "8", "",  "7",  "3",  "5",  "",  ""  },
+		{ "",  "", "6", "9",  "4", "", "", "",  "1"  },
+		{ "5",  "",  "", "", "", "", "", "7",  "" },
+		{ "",  "7",  "3", "5",  "6",  "1",  "8", "4",  ""  },
+		{ "", "1",  "", "", "", "", "", "",  "5"  },
+		{ "8",  "",  "", "", "1", "6",  "2", "", ""  },
+		{ "",  "",  "9",  "8",  "2",  "",  "4", "",  "7"  },
+		{ "",  "", "5", "7", "3", "",  "",  "", ""  }
+	};
+	
+	
+	private final String[][] nineByNinePrefill5 = new String[][] {
+		{ "", "",  "2",  "1",  "", "", "", "8", ""  },
+		{ "",  "4",  "3", "",  "7",  "",  "1",  "",  "6"  },
+		{ "",  "", "", "",  "3", "2", "", "",  ""  },
+		{ "",  "9",  "", "", "8", "", "5", "",  "4" },
+		{ "5",  "8",  "4", "",  "9",  "",  "2", "3",  "1"  },
+		{ "2", "",  "7", "", "1", "", "", "6",  ""  },
+		{ "",  "",  "", "8", "2", "",  "", "", ""  },
+		{ "1",  "",  "6",  "",  "5",  "",  "7", "9",  ""  },
+		{ "",  "7", "", "", "", "1",  "4",  "", ""  }
+	};
 	SudokuGrid(int size) {
 		
 		//Variable instantiations
@@ -73,13 +187,103 @@ final class SudokuGrid extends JPanel {
 		Dimension fieldSize = new Dimension(60, 60);
 		int sectionSize = (int) Math.sqrt(size);
 		
+		//random number generator to select puzzle
+		Random ran = new Random();
+		int random = ran.nextInt(10);
+		
 		//Sets the pre-made puzzle based upon grid size
 		String[][] numbersArr;
-		if(size == 9)
-			numbersArr = this.nineByNinePrefill;
-		else
-			numbersArr = this.fourByFourPrefill;
 		
+		switch (random) {
+			
+		case 0: 
+		
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill;
+			else
+				numbersArr = this.fourByFourPrefill;
+			break;
+		
+		
+		case 1:
+		
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill2;
+			else
+				numbersArr = this.fourByFourPrefill2;
+			break;
+			
+		case 2:
+			
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill3;
+			else
+				numbersArr = this.fourByFourPrefill3;
+			break;
+			
+		case 3:
+			
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill4;
+			else
+				numbersArr = this.fourByFourPrefill4;
+			break;
+			
+		case 4:
+			
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill5;
+			else
+				numbersArr = this.fourByFourPrefill5;
+			break;
+			
+		case 5:
+			
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill;
+			else
+				numbersArr = this.fourByFourPrefill6;
+			break;
+			
+		case 6:
+			
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill;
+			else
+				numbersArr = this.fourByFourPrefill7;
+			break;
+			
+		case 7:
+			
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill;
+			else
+				numbersArr = this.fourByFourPrefill8;
+			break;
+			
+		case 8:
+			
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill;
+			else
+				numbersArr = this.fourByFourPrefill9;
+			break;
+			
+		case 9:
+			
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill;
+			else
+				numbersArr = this.fourByFourPrefill10;
+			break;
+		
+	    default:  
+			if(size == 9)
+				numbersArr = this.nineByNinePrefill;
+			else
+				numbersArr = this.fourByFourPrefill;
+			break;
+		} //end switch
 		
 		/**
 		* Loop initiates the array of text fields that makes up the grid.
@@ -170,6 +374,15 @@ final class SudokuGrid extends JPanel {
 		newPuzzleButton.addActionListener((ActionEvent e) -> {
 			JOptionPane.showMessageDialog(null, "Are you sure you wish to start a new puzzle?\nChanges will not be saved.");
 		});
+		
+		/*//Generate new puzzle after clicking "Next Puzzle" button       ----->
+		newPuzzleButton.addActionListener((ActionEvent e) -> {
+	      SudokuJFrame.getFrame().getContentPane().removeAll();
+          frame.getContentPane().add(grid = new SudokuGrid(4));
+          SudokuJFrame.getFrame().pack();
+          centerView();
+     
+		});*/
 		
 		
 		//Adds all items to the layout

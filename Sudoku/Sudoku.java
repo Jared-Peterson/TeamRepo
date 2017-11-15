@@ -45,7 +45,7 @@ public class Sudoku {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new SudokuJFrame(nineByNine);
+				new SudokuJFrame(nineByNine, 9);
 			}
 		});
 	}

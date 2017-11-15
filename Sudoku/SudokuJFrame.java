@@ -8,19 +8,23 @@
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class SudokuJFrame {
 	
 	private final JFrame frame = new JFrame("Sudoku Solver");
 	private SudokuGrid grid;
+	private int Answer;
 	
 	/**
 	* Constructor
 	* @param size is the desired dimension of the puzzle
 	* Adds a Sudoku grid to the JFrame
 	**/
-	public SudokuJFrame(int size) {
+	public SudokuJFrame(int size, int x) {
+		Answer = x;
 		buildMenu();
 		Container contentPane = frame.getContentPane();
 		contentPane.add(grid = new SudokuGrid(size));
@@ -67,9 +71,24 @@ public class SudokuJFrame {
       difficultyMenu.addSeparator();
       difficultyMenu.add(hard);
       
+      JButton newPuzzle = new JButton("Next Puzzle");
+      	//newPuzzle.setOpaque(true);
+      	//newPuzzle.setContentAreaFilled(false);
+      	//newPuzzle.setBorderPainted(false);
+    	newPuzzle.setFont(textFont);
+      	newPuzzle.setFocusable(false);
+      	newPuzzle.addActionListener((ActionEvent e) -> {
+      		frame.setVisible(false);
+      		frame.dispose();
+      		if (Answer == 4)
+      			new SudokuJFrame(4, Answer);
+      		else
+      			new SudokuJFrame(9, Answer);
+      });
       //Builds the menu
       menuBar.add(optionMenu);
       menuBar.add(difficultyMenu);
+      menuBar.add(newPuzzle);
       
       frame.setJMenuBar(menuBar);
       
@@ -78,6 +97,7 @@ public class SudokuJFrame {
       * @param e is the event that 4x4 is selected from the menu
       **/
       size4x4.addActionListener((ActionEvent e) -> {
+          Answer = 4;
           frame.getContentPane().removeAll();
           frame.getContentPane().add(grid = new SudokuGrid(4));
           frame.pack();
@@ -89,13 +109,13 @@ public class SudokuJFrame {
       * @param e is the event that 9x9 is selected from the menu
       **/
       size9x9.addActionListener((ActionEvent e) -> {
+          Answer = 9;
           frame.getContentPane().removeAll();
           frame.getContentPane().add(grid = new SudokuGrid(9));
           frame.pack();
           centerView();
       });
 	}
-  
 
 	/**
     * Centers the grid on the screen

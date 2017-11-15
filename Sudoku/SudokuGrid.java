@@ -17,6 +17,7 @@ import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -367,15 +368,23 @@ final class SudokuGrid extends JPanel {
 		
 		//Creates a "Next Puzzle" button of static dimensions and defined font size
 		this.newPuzzleButton = new JButton("Next Puzzle");
-		newPuzzleButton.setPreferredSize(new Dimension(125, 40));
+/*		newPuzzleButton.setPreferredSize(new Dimension(125, 40));
 		newPuzzleButton.setFont(ARIAL_SM);
 		
 		//Verifies action with user
 		newPuzzleButton.addActionListener((ActionEvent e) -> {
-			JOptionPane.showMessageDialog(null, "Are you sure you wish to start a new puzzle?\nChanges will not be saved.");
-		});
+			//JOptionPane.showMessageDialog(null, "Are you sure you wish to start a new puzzle?\nChanges will not be saved.");
 		
-		/*//Generate new puzzle after clicking "Next Puzzle" button       ----->
+			int dial
+		Object [] options = {"Yes", "No"};
+			JOptionPane.showOptionDialog(null, "Are you sure you wish to start a new puzzle?\nChanges will not be saved.", 
+					"Next Puzzle?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			if (JOptionPane.showConfirmDialog(null, "Are you sure?", "WARNING",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			}
+		
+		});
+		//Generate new puzzle after clicking "Next Puzzle" button       ----->
 		newPuzzleButton.addActionListener((ActionEvent e) -> {
 	      SudokuJFrame.getFrame().getContentPane().removeAll();
           frame.getContentPane().add(grid = new SudokuGrid(4));
@@ -392,6 +401,6 @@ final class SudokuGrid extends JPanel {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 		this.buttonPanel.add(solveButton, BorderLayout.CENTER);
 		buttonPanel.add(Box.createRigidArea(new Dimension(15,0)));
-		this.buttonPanel.add(newPuzzleButton, BorderLayout.CENTER);
+		//this.buttonPanel.add(newPuzzleButton, BorderLayout.CENTER);
 	}
 }

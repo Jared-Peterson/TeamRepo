@@ -39,140 +39,485 @@ final class SudokuGrid extends JPanel {
 	private final JButton solveButton;
 	private final JButton newPuzzleButton;
 	
-	//Allow num pad entries
+	//Puzzle boolean difficulties
+	public static boolean easy;
+	public static boolean medium;
+	public static boolean hard;
 	
-	//Puzzle options
-	private final String[][] fourByFourPrefill = new String[][] {
-		{ "",  "2", "1", ""  },
-		{ "3", "",  "",  ""  },
-		{ "",  "",  "",  "1" },
-		{ "",  "3", "4", ""  }
+	//Puzzles
+	
+	//4x4 puzzles
+	private final String[][] fourEasyFill1 = new String[][] {
+		{ "1",  "", "3", "4"  },
+		{ "3", "4",  "",  "2"  },
+		{ "4",  "",  "2",  "1" },
+		{ "2",  "1", "", "3"  }
+	};
+	
+	private final String[][] fourEasyFill2 = new String[][] {
+		{ "3",  "4", "1", ""  },
+		{ "2", "1",  "",  "4"  },
+		{ "",  "3",  "2",  "1" },
+		{ "1",  "2", "4", ""  }
+	};
+	
+	private final String[][] fourEasyFill3 = new String[][] {
+		{ "1",  "2", "3", ""  },
+		{ "3", "4",  "1",  ""  },
+		{ "4",  "3",  "",  "1" },
+		{ "2",  "1", "4", ""  }
+	};
+	
+	private final String[][] fourEasyFill4 = new String[][] {
+		{ "3",  "4", "", "2"  },
+		{ "2", "1",  "3",  ""  },
+		{ "4",  "",  "2",  "1" },
+		{ "1",  "", "4", "3"  }
+	};
+	
+	private final String[][] fourEasyFill5 = new String[][] {
+		{ "1",  "", "3", "4"  },
+		{ "3", "",  "1",  "2"  },
+		{ "2",  "1",  "4",  "" },
+		{ "",  "3", "2", "1"  }
+	};
+	
+	private final String[][] fourMediumFill1 = new String[][] {
+		{ "",  "", "3", "1"  },
+		{ "1", "3",  "",  ""  },
+		{ "",  "4",  "",  "3" },
+		{ "3",  "", "", "2"  }
+	};
+	
+	private final String[][] fourMediumFill2 = new String[][] {
+		{ "4",  "", "3", ""  },
+		{ "", "3",  "",  "4"  },
+		{ "2",  "4",  "",  "" },
+		{ "3",  "1", "", ""  }
+	};
+	
+	private final String[][] fourMediumFill3 = new String[][] {
+		{ "",  "", "3", "4"  },
+		{ "3", "",  "",  "2"  },
+		{ "",  "",  "2",  "1" },
+		{ "2",  "1", "", ""  }
+	};
+	
+	private final String[][] fourMediumFill4 = new String[][] {
+		{ "2",  "", "1", ""  },
+		{ "", "",  "2",  "4"  },
+		{ "",  "1",  "",  "2" },
+		{ "3",  "", "4", ""  }
+	};
+	
+	private final String[][] fourMediumFill5 = new String[][] {
+		{ "3",  "4", "", ""  },
+		{ "2", "1",  "",  ""  },
+		{ "4",  "",  "",  "1" },
+		{ "",  "2", "4", ""  }
+	};
+	
+	private final String[][] fourHardFill1 = new String[][] {
+		{ "1", "", "", ""  },
+		{ "3", "", "", ""  },
+		{ "", "", "", "3" },
+		{ "", "3", "", ""  }
+	};
+	
+	private final String[][] fourHardFill2 = new String[][] {
+		{ "", "", "3", ""  },
+		{ "", "3", "", ""  },
+		{ "2", "", "", "" },
+		{ "", "", "", "2"  }
+	};
+	
+	private final String[][] fourHardFill3 = new String[][] {
+		{ "", "", "", "4"  },
+		{ "", "", "", "2"  },
+		{ "2", "", "", "" },
+		{ "4", "", "", ""  }
+	};
+	
+	private final String[][] fourHardFill4 = new String[][] {
+		{ "1", "", "", ""  },
+		{ "", "3", "", ""  },
+		{ "", "", "4", "" },
+		{ "", "", "1", ""  }
+	};
+	
+	private final String[][] fourHardFill5 = new String[][] {
+		{ "", "", "3", ""  },
+		{ "", "4", "", ""  },
+		{ "4", "", "", "" },
+		{ "", "", "4", ""  }
 	};
 	
 	
-	private final String[][] fourByFourPrefill2 = new String[][] {
-		{ "",  "1", "", "3"  },
-		{ "", "",  "2",  ""  },
-		{ "",  "4",  "",  "" },
-		{ "1",  "", "3", ""  }
+	//9x9 puzzles
+	private final String[][] nineEasyFill1 = new String[][] {
+		{ "", "", "", "", "", "3", "7", "6", "8" },
+		{ "6", "1", "", "", "", "8", "9", "", "" },
+		{ "5", "8", "", "7", "9", "", "", "4", "" },
+		{ "", "", "", "", "", "7", "5", "8", "" },
+		{ "3", "", "6", "", "", "", "1", "", "9" },
+		{ "", "9", "8", "6", "", "", "", "", "" },
+		{ "", "3", "", "", "4", "9", "", "1", "7" },
+		{ "", "", "4", "1", "", "", "", "9", "2" },
+		{ "9", "6", "1", "3", "", "", "", "", "" }
 	};
 	
-	private final String[][] fourByFourPrefill3 = new String[][] {
-		{ "2", "", "1", ""  },
-		{ "", "",  "",  "4"  },
-		{ "3",  "",  "",  "" },
-		{ "",  "2", "", "1"  }
+	private final String[][] nineEasyFill2 = new String[][] {
+		{ "", "", "2", "6", "", "1", "", "8", "" },
+		{ "", "", "8", "5", "2", "", "4", "6", "" },
+		{ "4", "", "", "", "7", "", "", "9", "5" },
+		{ "5", "1", "", "", "", "4", "", "", "9" },
+		{ "7", "", "", "", "", "", "", "", "2" },
+		{ "2", "", "", "1", "", "", "", "3", "6" },
+		{ "8", "9", "", "", "1", "", "", "", "3" },
+		{ "", "2", "5", "", "9", "8", "7", "", "" },
+		{ "", "3", "", "4", "", "5", "9", "", "" }
 	};
 	
-	private final String[][] fourByFourPrefill4 = new String[][] {
-		{ "",  "4", "2", ""  },
-		{ "", "",  "",  "1"  },
-		{ "4",  "",  "",  "" },
-		{ "",  "3", "1", ""  }
+	private final String[][] nineEasyFill3 = new String[][] {
+		{ "9", "1", "8", "", "", "2", "", "", "" },
+		{ "", "4", "", "", "3", "", "2", "", "" },
+		{ "", "2", "7", "", "5", "", "", "", "6" },
+		{ "", "7", "6", "2", "9", "", "3", "4", "" },
+		{ "", "8", "", "", "", "", "", "9", "" },
+		{ "", "9", "3", "", "1", "8", "6", "5", "" },
+		{ "2", "", "", "", "4", "", "9", "8", "" },
+		{ "", "", "9", "", "8", "", "", "2", "" },
+		{ "", "", "", "1", "", "", "7", "6", "3" }
 	};
 	
-	private final String[][] fourByFourPrefill5 = new String[][] {
-		{ "",  "3", "", ""  },
-		{ "2", "",  "",  "3"  },
-		{ "1",  "",  "",  "4" },
-		{ "",  "", "1", ""  }
+	private final String[][] nineEasyFill4 = new String[][] {
+		{ "", "4", "", "6", "", "3", "", "", "5" },
+		{ "8", "", "9", "7", "2", "", "6", "4", "" },
+		{ "", "6", "1", "", "", "8", "7", "", "" },
+		{ "", "", "", "", "", "", "5", "7", "" },
+		{ "", "", "5", "3", "", "1", "4", "", "" },
+		{ "", "9", "7", "", "", "", "", "", "" },
+		{ "", "", "6", "8", "", "", "2", "9", "" },
+		{ "", "7", "8", "", "5", "2", "1", "", "3" },
+		{ "9", "", "", "1", "", "4", "", "5", "" }
 	};
 	
-	private final String[][] fourByFourPrefill6 = new String[][] {
-		{ "",  "4", "3", ""  },
-		{ "", "",  "",  "4"  },
-		{ "2",  "",  "",  "" },
-		{ "",  "1", "2", ""  }
+	private final String[][] nineEasyFill5 = new String[][] {
+		{ "9", "2", "", "", "", "", "6", "", "" },
+		{ "", "4", "", "", "", "", "", "", "7" },
+		{ "1", "", "", "4", "6", "", "2", "5", "8" },
+		{ "", "", "", "", "9", "8", "4", "", "5" },
+		{ "", "", "7", "3", "", "4", "9", "", "" },
+		{ "4", "", "9", "6", "5", "", "", "", "" },
+		{ "7", "8", "4", "", "3", "2", "", "", "1" },
+		{ "5", "", "", "", "", "", "", "2", "" },
+		{ "", "", "6", "", "", "", "", "8", "9" }
 	};
 	
-	private final String[][] fourByFourPrefill7 = new String[][] {
-		{ "",  "1", "", ""  },
-		{ "4", "",  "",  "1"  },
-		{ "3",  "",  "",  "2" },
-		{ "",  "", "3", ""  }
+	private final String[][] nineEasyFill6 = new String[][] {
+		{ "9", "", "", "1", "", "", "7", "8", "" },
+		{ "", "", "1", "8", "", "9", "2", "", "6" },
+		{ "", "", "", "3", "", "5", "", "9", "1" },
+		{ "4", "", "7", "", "", "", "8", "", "5" },
+		{ "", "", "", "7", "", "8", "", "", "" },
+		{ "6", "", "8", "", "", "", "9", "", "2" },
+		{ "8", "9", "", "2", "", "6", "", "", "" },
+		{ "5", "", "6", "9", "", "4", "1", "", "" },
+		{ "", "1", "3", "", "", "7", "", "", "9" }
 	};
 	
-	private final String[][] fourByFourPrefill8 = new String[][] {
-		{ "",  "3", "", "4"  },
-		{ "", "",  "3",  ""  },
-		{ "",  "2",  "",  "" },
-		{ "1", "", "2", ""  }
+	private final String[][] nineEasyFill7 = new String[][] {
+		{ "", "", "6", "", "", "7", "2", "8", "" },
+		{ "", "", "", "", "6", "1", "3", "", "" },
+		{ "", "", "", "9", "8", "3", "", "6", "" },
+		{ "4", "", "", "6", "9", "", "", "", "8" },
+		{ "", "2", "3", "", "", "", "4", "5", "" },
+		{ "8", "", "", "", "3", "5", "", "", "2" },
+		{ "", "6", "", "3", "2", "9", "", "", "" },
+		{ "", "", "2", "1", "7", "", "", "", "" },
+		{ "", "3", "7", "8", "", "", "1", "", "" }
 	};
 	
-	private final String[][] fourByFourPrefill9 = new String[][] {
-		{ "2",  "", "", "3"  },
-		{ "", "",  "2",  ""  },
-		{ "",  "1",  "",  "" },
-		{ "4",  "", "", "1"  }
+	private final String[][] nineEasyFill8 = new String[][] {
+		{ "5", "", "", "3", "", "", "", "1", "7" },
+		{ "3", "", "", "", "", "1", "4", "", "5" },
+		{ "7", "", "4", "", "8", "2", "", "", "6" },
+		{ "2", "3", "1", "", "6", "", "", "7", "" },
+		{ "", "", "", "", "", "", "", "", "" },
+		{ "", "4", "", "", "9", "", "1", "6", "3" },
+		{ "1", "", "", "6", "2", "", "9", "", "4" },
+		{ "4", "", "5", "7", "", "", "", "", "2" },
+		{ "6", "2", "", "", "", "3", "", "", "1" }
 	};
 	
-	private final String[][] fourByFourPrefill10 = new String[][] {
-		{ "",  "", "2", ""  },
-		{ "2", "",  "",  "1"  },
-		{ "4",  "",  "",  "3" },
-		{ "",  "3", "", ""  }
+	private final String[][] nineEasyFill9 = new String[][] {
+		{ "6", "", "", "", "5", "", "", "4", "1" },
+		{ "", "1", "", "", "3", "4", "9", "", "" },
+		{ "", "", "5", "1", "", "7", "", "", "6" },
+		{ "", "9", "3", "", "", "", "6", "", "" },
+		{ "", "", "", "5", "6", "3", "", "", "" },
+		{ "", "", "4", "", "", "", "5", "8", "" },
+		{ "3", "", "", "8", "", "2", "7", "", "" },
+		{ "", "", "2", "4", "7", "", "", "5", "" },
+		{ "4", "7", "", "", "9", "", "", "", "8" }
 	};
 	
-	private final String[][] nineByNinePrefill = new String[][] {
-		{ "7", "",  "",  "",  "9", "8", "5", "6", ""  },
-		{ "",  "",  "5", "",  "",  "",  "",  "",  ""  },
-		{ "",  "6", "2", "",  "1", "4", "3", "",  ""  },
-		{ "",  "",  "1", "3", "8", "7", "6", "",  "9" },
-		{ "",  "",  "9", "",  "",  "",  "7", "",  ""  },
-		{ "4", "",  "8", "9", "6", "5", "1", "",  ""  },
-		{ "",  "",  "6", "4", "7", "",  "2", "3", ""  },
-		{ "",  "",  "",  "",  "",  "",  "8", "",  ""  },
-		{ "",  "5", "7", "8", "2", "",  "",  "6", ""  }
+	private final String[][] nineEasyFill10 = new String[][] {
+		{ "9", "8", "", "5", "", "7", "1", "", "4" },
+		{ "", "", "", "", "1", "", "", "", "" },
+		{ "6", "2", "", "", "", "", "8", "", "" },
+		{ "1", "", "", "", "", "2", "", "3", "9" },
+		{ "5", "", "", "1", "6", "4", "", "", "7" },
+		{ "2", "7", "", "9", "", "", "", "", "1" },
+		{ "", "", "4", "", "", "", "", "9", "8" },
+		{ "", "", "", "", "7", "", "", "", "" },
+		{ "3", "", "5", "6", "", "8", "", "1", "2" }
 	};
 	
-	private final String[][] nineByNinePrefill2 = new String[][] {
-		{ "6", "",  "7",  "8",  "4", "", "", "", ""  },
-		{ "",  "3",  "", "",  "5",  "",  "",  "7",  ""  },
-		{ "",  "4", "5", "",  "", "2", "6", "3",  "8"  },
-		{ "",  "",  "9", "5", "3", "", "", "",  "6" },
-		{ "7",  "",  "", "",  "",  "",  "", "",  "5"  },
-		{ "5", "",  "", "", "8", "1", "7", "",  ""  },
-		{ "3",  "5",  "6", "9", "", "",  "1", "4", ""  },
-		{ "",  "8",  "",  "",  "1",  "",  "", "6",  ""  },
-		{ "",  "", "", "", "6", "4",  "5",  "", "3"  }
+
+	private final String[][] nineMediumFill1 = new String[][] {
+		{ "", "", "", "", "", "7", "", "5", "" },
+		{ "", "", "6", "3", "8", "", "9", "7", "" },
+		{ "", "9", "", "5", "6", "", "", "", "4" },
+		{ "", "", "5", "", "", "", "4", "", "" },
+		{ "", "7", "4", "", "1", "", "2", "8", "" },
+		{ "", "", "8", "", "", "", "1", "", "" },
+		{ "3", "", "", "", "4", "8", "", "2", "" },
+		{ "", "5", "1", "", "7", "3", "6", "", "" },
+		{ "", "2", "", "1", "", "", "", "", "" }
 	};
 	
-	private final String[][] nineByNinePrefill3 = new String[][] {
-		{ "", "",  "",  "2",  "7", "8", "", "", "4"  },
-		{ "7",  "",  "", "",  "",  "",  "",  "3",  ""  },
-		{ "",  "4", "", "3",  "", "5", "", "9",  "7"  },
-		{ "3",  "",  "7", "5", "", "", "4", "",  "1" },
-		{ "2",  "",  "", "1",  "",  "9",  "", "",  "6"  },
-		{ "1", "",  "4", "", "", "7", "9", "",  "2"  },
-		{ "6",  "5",  "", "7", "", "4",  "", "2", ""  },
-		{ "",  "7",  "",  "",  "",  "",  "", "",  "5"  },
-		{ "9",  "", "", "6", "5", "1",  "",  "", ""  }
+	private final String[][] nineMediumFill2 = new String[][] {
+		{ "1", "3", "", "", "7", "", "", "", "" },
+		{ "9", "", "2", "8", "", "", "", "1", "3" },
+		{ "", "", "", "", "", "9", "", "", "" },
+		{ "3", "", "", "9", "4", "", "", "7", "2" },
+		{ "", "", "", "6", "5", "7", "", "", "" },
+		{ "6", "7", "", "", "2", "8", "", "", "1" },
+		{ "", "", "", "4", "", "", "", "", "" },
+		{ "4", "1", "", "", "", "5", "3", "", "7" },
+		{ "", "", "", "", "9", "", "", "2", "4" }
 	};
 	
-	private final String[][] nineByNinePrefill4 = new String[][] {
-		{ "", "",  "",  "",  "5", "2", "9", "", ""  },
-		{ "2",  "",  "8", "",  "7",  "3",  "5",  "",  ""  },
-		{ "",  "", "6", "9",  "4", "", "", "",  "1"  },
-		{ "5",  "",  "", "", "", "", "", "7",  "" },
-		{ "",  "7",  "3", "5",  "6",  "1",  "8", "4",  ""  },
-		{ "", "1",  "", "", "", "", "", "",  "5"  },
-		{ "8",  "",  "", "", "1", "6",  "2", "", ""  },
-		{ "",  "",  "9",  "8",  "2",  "",  "4", "",  "7"  },
-		{ "",  "", "5", "7", "3", "",  "",  "", ""  }
+	private final String[][] nineMediumFill3 = new String[][] {
+		{ "9", "", "", "7", "4", "5", "", "", "" },
+		{ "", "", "", "", "", "", "2", "", "" },
+		{ "6", "3", "", "1", "", "", "", "", "" },
+		{ "", "8", "", "4", "2", "", "", "6", "5" },
+		{ "", "2", "7", "", "8", "", "4", "3", "" },
+		{ "4", "6", "", "", "1", "3", "", "7", "" },
+		{ "", "", "", "", "", "4", "", "2", "7" },
+		{ "", "", "3", "", "", "", "", "", "" },
+		{ "", "", "", "8", "6", "1", "", "", "3" }
+	};
+	
+	private final String[][] nineMediumFill4 = new String[][] {
+		{ "", "2", "8", "", "", "", "", "9", "4" },
+		{ "", "", "1", "", "", "", "", "", "" },
+		{ "3", "4", "", "", "", "8", "", "2", "6" },
+		{ "7", "1", "", "9", "", "", "", "3", "" },
+		{ "", "5", "", "3", "", "2", "", "7", "" },
+		{ "", "3", "", "", "", "1", "", "4", "8" },
+		{ "6", "8", "", "5", "", "", "", "1", "9" },
+		{ "", "", "", "", "", "", "4", "", "" },
+		{ "4", "9", "", "", "", "", "8", "5", "" }
+	};
+	
+	private final String[][] nineMediumFill5 = new String[][] {
+		{ "4", "", "", "", "5", "", "", "", "9" },
+		{ "", "1", "8", "7", "", "", "", "", "3" },
+		{ "2", "", "", "", "", "", "", "4", "" },
+		{ "6", "4", "", "", "", "7", "", "1", "" },
+		{ "", "", "2", "", "1", "", "4", "", "" },
+		{ "", "9", "", "4", "", "", "", "7", "5" },
+		{ "", "5", "", "", "", "", "", "", "2" },
+		{ "3", "", "", "", "", "1", "9", "5", "" },
+		{ "8", "", "", "", "6", "", "", "", "1" }
+	};
+	
+	private final String[][] nineMediumFill6 = new String[][] {
+		{ "", "", "", "", "8", "7", "3", "6", "" },
+		{ "", "4", "", "", "3", "9", "", "8", "" },
+		{ "", "", "", "", "2", "", "", "", "1" },
+		{ "", "", "1", "", "", "", "6", "", "9" },
+		{ "", "", "", "8", "", "1", "", "", "" },
+		{ "4", "", "7", "", "", "", "8", "", "" },
+		{ "8", "", "", "", "9", "", "", "", "" },
+		{ "", "5", "", "3", "6", "", "", "4", "" },
+		{ "", "9", "4", "7", "1", "", "", "", "" }
+	};
+	
+	private final String[][] nineMediumFill7 = new String[][] {
+		{ "9", "", "", "5", "", "", "", "6", "" },
+		{ "2", "3", "8", "", "", "", "", "", "" },
+		{ "", "", "", "", "1", "3", "9", "", "" },
+		{ "", "", "", "", "5", "7", "", "8", "" },
+		{ "5", "", "", "2", "", "8", "", "", "9" },
+		{ "", "7", "", "6", "3", "", "", "", "" },
+		{ "", "", "4", "9", "6", "", "", "", "" },
+		{ "", "", "", "", "", "", "8", "9", "5" },
+		{ "", "5", "", "", "", "1", "", "", "3" }
+	};
+	
+	private final String[][] nineMediumFill8 = new String[][] {
+		{ "", "", "6", "5", "", "", "", "7", "" },
+		{ "", "", "7", "", "8", "1", "3", "", "6" },
+		{ "2", "4", "", "9", "", "", "", "", "" },
+		{ "", "", "5", "", "", "", "", "8", "" },
+		{ "", "7", "", "6", "9", "8", "", "3", "" },
+		{ "", "8", "", "", "", "", "9", "", "" },
+		{ "", "", "", "", "", "9", "", "6", "2" },
+		{ "7", "", "9", "8", "6", "", "5", "", "" },
+		{ "", "6", "", "", "", "3", "8", "", "" }
+	};
+	
+	private final String[][] nineMediumFill9 = new String[][] {
+		{ "", "", "4", "", "6", "7", "", "1", "" },
+		{ "1", "", "", "4", "", "", "", "9", "" },
+		{ "", "", "", "", "1", "", "", "", "" },
+		{ "7", "2", "", "", "", "", "9", "4", "1" },
+		{ "", "", "3", "", "", "", "7", "", "" },
+		{ "6", "4", "9", "", "", "", "", "2", "8" },
+		{ "", "", "", "", "8", "", "", "", "" },
+		{ "", "9", "", "", "", "5", "", "", "2" },
+		{ "", "6", "", "9", "2", "", "4", "", "" }
+	};
+	
+	private final String[][] nineMediumFill10 = new String[][] {
+		{ "", "", "", "", "", "5", "4", "8", "" },
+		{ "", "", "", "", "6", "", "", "9", "" },
+		{ "5", "1", "2", "8", "9", "", "3", "", "" },
+		{ "", "", "7", "", "", "", "", "", "" },
+		{ "", "6", "", "2", "", "7", "", "1", "" },
+		{ "", "", "", "", "", "", "6", "", "" },
+		{ "", "", "9", "", "3", "6", "2", "5", "8" },
+		{ "", "5", "", "", "7", "", "", "", "" },
+		{ "", "8", "6", "1", "", "", "", "", "" }
 	};
 	
 	
-	private final String[][] nineByNinePrefill5 = new String[][] {
-		{ "", "",  "2",  "1",  "", "", "", "8", ""  },
-		{ "",  "4",  "3", "",  "7",  "",  "1",  "",  "6"  },
-		{ "",  "", "", "",  "3", "2", "", "",  ""  },
-		{ "",  "9",  "", "", "8", "", "5", "",  "4" },
-		{ "5",  "8",  "4", "",  "9",  "",  "2", "3",  "1"  },
-		{ "2", "",  "7", "", "1", "", "", "6",  ""  },
-		{ "",  "",  "", "8", "2", "",  "", "", ""  },
-		{ "1",  "",  "6",  "",  "5",  "",  "7", "9",  ""  },
-		{ "",  "7", "", "", "", "1",  "4",  "", ""  }
+	
+	
+	private final String[][] nineHardFill1 = new String[][] {
+		{ "", "", "4", "", "8", "", "", "7", "" },
+		{ "7", "", "", "4", "", "2", "", "", "5" },
+		{ "1", "", "", "6", "", "", "", "", "" },
+		{ "", "", "9", "", "4", "", "", "8", "" },
+		{ "", "", "8", "", "5", "", "3", "", "" },
+		{ "", "5", "", "", "6", "", "2", "", "" },
+		{ "", "", "", "", "", "6", "", "", "8" },
+		{ "3", "", "", "8", "", "4", "", "", "6" },
+		{ "", "7", "", "", "2", "", "9", "", "" }
 	};
+	
+	private final String[][] nineHardFill2 = new String[][] {
+		{ "1", "8", "9", "7", "", "", "", "", "2" },
+		{ "", "", "7", "", "2", "1", "", "5", "" },
+		{ "6", "", "", "", "", "", "", "", "" },
+		{ "", "", "", "4", "9", "", "7", "", "" },
+		{ "", "", "", "", "6", "", "", "", "" },
+		{ "", "", "3", "", "1", "7", "", "", "" },
+		{ "", "", "", "", "", "", "", "", "6" },
+		{ "", "5", "", "3", "7", "", "1", "", "" },
+		{ "9", "", "", "", "", "6", "3", "8", "4" }
+	};
+	
+	private final String[][] nineHardFill3 = new String[][] {
+		{ "", "", "", "3", "", "", "6", "", "" },
+		{ "7", "8", "", "6", "", "", "", "5", "" },
+		{ "", "", "", "", "2", "9", "8", "", "" },
+		{ "3", "", "6", "", "7", "", "", "", "9" },
+		{ "", "", "", "9", "", "2", "", "", "" },
+		{ "5", "", "", "", "6", "", "7", "", "1" },
+		{ "", "", "1", "2", "9", "", "", "", "" },
+		{ "", "3", "", "", "", "8", "", "2", "6" },
+		{ "", "", "4", "", "", "1", "", "", "" }
+	};
+	
+	private final String[][] nineHardFill4 = new String[][] {
+		{ "", "", "7", "", "", "", "", "6", "" },
+		{ "6", "", "", "", "3", "", "", "5", "" },
+		{ "1", "2", "8", "", "6", "", "7", "", "" },
+		{ "", "", "", "", "", "", "2", "3", "" },
+		{ "", "", "9", "3", "", "1", "6", "", "" },
+		{ "", "6", "1", "", "", "", "", "", "" },
+		{ "", "", "6", "", "4", "", "3", "9", "7" },
+		{ "", "5", "", "", "9", "", "", "", "6" },
+		{ "", "7", "", "", "", "", "4", "", "" }
+	};
+	
+	private final String[][] nineHardFill5 = new String[][] {
+		{ "", "", "", "", "", "3", "", "", "" },
+		{ "3", "", "9", "", "", "2", "", "", "4" },
+		{ "6", "", "", "", "4", "", "", "", "9" },
+		{ "", "", "7", "1", "", "", "", "9", "" },
+		{ "", "", "2", "4", "", "9", "8", "", "" },
+		{ "", "4", "", "", "", "6", "3", "", "" },
+		{ "5", "", "", "", "1", "", "", "", "3" },
+		{ "4", "", "", "5", "", "", "9", "", "6" },
+		{ "", "", "", "3", "", "", "", "", "" }
+	};
+	
+	private final String[][] nineHardFill6 = new String[][] {
+		{ "7", "", "", "", "3", "5", "1", "", "" },
+		{ "", "3", "", "", "", "", "6", "", "" },
+		{ "", "", "1", "", "7", "8", "", "", "" },
+		{ "3", "", "", "7", "", "4", "5", "", "2" },
+		{ "", "", "", "", "", "", "", "", "" },
+		{ "8", "", "7", "9", "", "3", "", "", "6" },
+		{ "", "", "", "2", "4", "", "7", "", "" },
+		{ "", "", "6", "", "", "", "", "5", "" },
+		{ "", "", "4", "5", "6", "", "", "", "1" }
+	};
+	
+	private final String[][] nineHardFill7 = new String[][] {
+		{ "4", "", "", "6", "", "", "", "7", "" },
+		{ "", "", "8", "", "", "", "3", "", "6" },
+		{ "", "", "", "", "", "", "9", "5", "4" },
+		{ "1", "", "", "4", "5", "", "", "2", "" },
+		{ "", "", "", "3", "", "1", "", "", "" },
+		{ "", "3", "", "", "8", "2", "", "", "1" },
+		{ "7", "5", "1", "", "", "", "", "", "" },
+		{ "8", "", "3", "", "", "", "4", "", "" },
+		{ "", "2", "", "", "", "9", "", "", "5" }
+	};
+	
+	private final String[][] nineHardFill8 = new String[][] {
+		{ "", "", "3", "5", "8", "", "", "", "" },
+		{ "5", "", "", "6", "1", "", "", "", "" },
+		{ "", "2", "", "", "", "", "7", "", "" },
+		{ "8", "1", "", "2", "", "", "", "", "" },
+		{ "9", "", "6", "", "", "", "5", "", "3" },
+		{ "", "", "", "", "", "4", "", "1", "8" },
+		{ "", "", "8", "", "", "", "", "4", "" },
+		{ "", "", "", "", "4", "9", "", "", "2" },
+		{ "", "", "", "", "6", "5", "8", "", "" }
+	};
+	
+	private final String[][] nineHardFill9 = new String[][] {
+		{ "", "9", "", "", "", "", "1", "4", "" },
+		{ "", "", "", "", "6", "9", "5", "", "2" },
+		{ "", "", "", "1", "", "", "", "", "" },
+		{ "", "", "7", "", "2", "", "6", "", "5" },
+		{ "", "3", "", "", "", "", "", "9", "" },
+		{ "2", "", "6", "", "9", "", "4", "", "" },
+		{ "", "", "", "", "", "2", "", "", "" },
+		{ "4", "", "8", "3", "1", "", "", "", "" },
+		{ "", "2", "3", "", "", "", "", "8", "" }
+	};
+	
+	private final String[][] nineHardFill10 = new String[][] {
+		{ "", "", "", "", "5", "1", "", "", "2" },
+		{ "", "", "", "2", "", "", "", "", "8" },
+		{ "", "3", "1", "6", "", "", "9", "", "" },
+		{ "4", "2", "", "", "3", "", "", "7", "" },
+		{ "", "", "", "1", "", "5", "", "", "" },
+		{ "", "5", "", "", "4", "", "", "9", "3" },
+		{ "", "", "7", "", "", "3", "6", "4", "" },
+		{ "3", "", "", "", "", "9", "", "", "" },
+		{ "6", "", "", "5", "1", "", "", "", "" }
+	};
+	
 	SudokuGrid(int size) {
 		
 		//Variable instantiations
@@ -190,101 +535,283 @@ final class SudokuGrid extends JPanel {
 		
 		//random number generator to select puzzle
 		Random ran = new Random();
-		int random = ran.nextInt(10);
 		
 		//Sets the pre-made puzzle based upon grid size
 		String[][] numbersArr;
 		
-		switch (random) {
+		//size is 4
+		if(size == 4) {
 			
-		case 0: 
+			//random number from 1-5
+			int random = ran.nextInt(5) + 1;
+			
+			//easy is true
+			if(easy == true) {
+				
+				//easy switch
+				switch(random) {
+				
+				case 1: 
+					numbersArr = this.fourEasyFill1;
+					break;
+				
+				case 2: 
+					numbersArr = this.fourEasyFill2;
+					break;
+				
+				case 3: 
+					numbersArr = this.fourEasyFill3;
+					break;
+				
+				case 4: 
+					numbersArr = this.fourEasyFill4;
+					break;
+				
+				case 5: 
+					numbersArr = this.fourEasyFill5;
+					break;
+					
+				default:
+					numbersArr = this.fourEasyFill5;
+					break;
+				
+				}
+				
+			}else if(medium == true) {
+				
+				//medium switch
+                switch(random) {
+				
+				case 1: 
+					numbersArr = this.fourMediumFill1;
+					break;
+				
+				case 2: 
+					numbersArr = this.fourMediumFill2;
+					break;
+				
+				case 3: 
+					numbersArr = this.fourMediumFill3;
+					break;
+				
+				case 4: 
+					numbersArr = this.fourMediumFill4;
+					break;
+				
+				case 5: 
+					numbersArr = this.fourMediumFill5;
+					break;
+					
+				default:
+					numbersArr = this.fourMediumFill5;
+					break;
+				
+				}
+				
+			}else if(hard == true) {
+				
+				//hard switch
+                switch(random) {
+				
+				case 1: 
+					numbersArr = this.fourHardFill1;
+					break;
+				
+				case 2: 
+					numbersArr = this.fourHardFill2;
+					break;
+				
+				case 3: 
+					numbersArr = this.fourHardFill3;
+					break;
+				
+				case 4: 
+					numbersArr = this.fourHardFill4;
+					break;
+				
+				case 5: 
+					numbersArr = this.fourHardFill5;
+					break;
+					
+				default:
+					numbersArr = this.fourHardFill5;
+					break;
+				
+				}
+			}else {
+				numbersArr = this.fourHardFill5;
+			}
+				
+		}else if(size == 9) {
+			
+			//random number from 1-10
+			int random = ran.nextInt(10) + 1;
+			
+			if(easy == true) {
+				
+				//easy switch
+                switch(random) {
+				
+				case 1: 
+					numbersArr = this.nineEasyFill1;
+					break;
+				
+				case 2: 
+					numbersArr = this.nineEasyFill2;
+					break;
+				
+				case 3: 
+					numbersArr = this.nineEasyFill3;
+					break;
+				
+				case 4: 
+					numbersArr = this.nineEasyFill4;
+					break;
+				
+				case 5: 
+					numbersArr = this.nineEasyFill5;
+					break;
+				
+				case 6: 
+					numbersArr = this.nineEasyFill6;
+					break;
+				
+				case 7: 
+					numbersArr = this.nineEasyFill7;
+					break;
+				
+				case 8: 
+					numbersArr = this.nineEasyFill8;
+					break;
+				
+				case 9: 
+					numbersArr = this.nineEasyFill9;
+					break;
+				
+				case 10: 
+					numbersArr = this.nineEasyFill10;
+					break;
+					
+				default:
+					numbersArr = this.nineEasyFill10;
+					break;
+				
+				}
+				
+				
+			}else if(medium == true) {
+				
+				//medium switch
+                switch(random) {
+				
+				case 1: 
+					numbersArr = this.nineMediumFill1;
+					break;
+				
+				case 2: 
+					numbersArr = this.nineMediumFill2;
+					break;
+				
+				case 3: 
+					numbersArr = this.nineMediumFill3;
+					break;
+				
+				case 4: 
+					numbersArr = this.nineMediumFill4;
+					break;
+				
+				case 5: 
+					numbersArr = this.nineMediumFill5;
+					break;
+				
+				case 6: 
+					numbersArr = this.nineMediumFill6;
+					break;
+				
+				case 7: 
+					numbersArr = this.nineMediumFill7;
+					break;
+				
+				case 8: 
+					numbersArr = this.nineMediumFill8;
+					break;
+				
+				case 9: 
+					numbersArr = this.nineMediumFill9;
+					break;
+				
+				case 10: 
+					numbersArr = this.nineMediumFill10;
+					break;
+					
+				default:
+					numbersArr = this.nineMediumFill10;
+					break;
+				
+				}
+				
+			}else if(hard == true) {
+				
+				//hard switch
+                switch(random) {
+				
+				case 1: 
+					numbersArr = this.nineHardFill1;
+					break;
+				
+				case 2: 
+					numbersArr = this.nineHardFill2;
+					break;
+				
+				case 3: 
+					numbersArr = this.nineHardFill3;
+					break;
+				
+				case 4: 
+					numbersArr = this.nineHardFill4;
+					break;
+				
+				case 5: 
+					numbersArr = this.nineHardFill5;
+					break;
+				
+				case 6: 
+					numbersArr = this.nineHardFill6;
+					break;
+				
+				case 7: 
+					numbersArr = this.nineHardFill7;
+					break;
+				
+				case 8: 
+					numbersArr = this.nineHardFill8;
+					break;
+				
+				case 9: 
+					numbersArr = this.nineHardFill9;
+					break;
+				
+				case 10: 
+					numbersArr = this.nineHardFill10;
+					break;
+					
+				default:
+					numbersArr = this.nineHardFill10;
+					break;
+				
+				}
+				
+			}else {
+				numbersArr = this.nineHardFill10;
+			}
+		}else {
+			numbersArr = this.nineHardFill10;
+		}
 		
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill;
-			else
-				numbersArr = this.fourByFourPrefill;
-			break;
 		
 		
-		case 1:
 		
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill2;
-			else
-				numbersArr = this.fourByFourPrefill2;
-			break;
-			
-		case 2:
-			
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill3;
-			else
-				numbersArr = this.fourByFourPrefill3;
-			break;
-			
-		case 3:
-			
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill4;
-			else
-				numbersArr = this.fourByFourPrefill4;
-			break;
-			
-		case 4:
-			
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill5;
-			else
-				numbersArr = this.fourByFourPrefill5;
-			break;
-			
-		case 5:
-			
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill;
-			else
-				numbersArr = this.fourByFourPrefill6;
-			break;
-			
-		case 6:
-			
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill;
-			else
-				numbersArr = this.fourByFourPrefill7;
-			break;
-			
-		case 7:
-			
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill;
-			else
-				numbersArr = this.fourByFourPrefill8;
-			break;
-			
-		case 8:
-			
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill;
-			else
-				numbersArr = this.fourByFourPrefill9;
-			break;
-			
-		case 9:
-			
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill;
-			else
-				numbersArr = this.fourByFourPrefill10;
-			break;
 		
-	    default:  
-			if(size == 9)
-				numbersArr = this.nineByNinePrefill;
-			else
-				numbersArr = this.fourByFourPrefill;
-			break;
-		} //end switch
 		
 		/**
 		* Loop initiates the array of text fields that makes up the grid.
@@ -356,13 +883,13 @@ final class SudokuGrid extends JPanel {
 					numbersArr[row][col] =  grid[row][col].getText();
 				}
 			}
-			if(CrossChecker.checkSolution(numbersArr, size)) {
+			if(SolutionChecker.checkSolution(numbersArr, size)) {
 				//do when solve is correct
-				System.out.println("The solution is correct!");
+				JOptionPane.showMessageDialog(null, "Your solution is correct!");
 			}
 			else {
 				//do when solve is incorrect
-				System.out.println("The solution is incorrect.");
+				JOptionPane.showMessageDialog(null, "Your solution is incorrect.");
 			}
 	      });
 		

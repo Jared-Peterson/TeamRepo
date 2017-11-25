@@ -16,7 +16,7 @@ public class SudokuJFrame {
 	
 	private final JFrame frame = new JFrame("Sudoku Solver");
 	private SudokuGrid grid;
-	private int Answer;
+	private int puzzleSize;
 	
 	/**
 	* Constructor
@@ -24,7 +24,7 @@ public class SudokuJFrame {
 	* Adds a Sudoku grid to the JFrame
 	**/
 	public SudokuJFrame(int size, int x) {
-		Answer = x;
+		puzzleSize = x;
 		buildMenu();
 		Container contentPane = frame.getContentPane();
 		contentPane.add(grid = new SudokuGrid(size));
@@ -61,30 +61,78 @@ public class SudokuJFrame {
       // DIFFICULTY
       JMenu difficultyMenu = new JMenu("Difficulty");
       
-      JMenuItem easy = new JMenuItem("Easy");
-      JMenuItem medium = new JMenuItem("Medium");
-      JMenuItem hard = new JMenuItem("Difficult");
+      ButtonGroup group = new ButtonGroup();
       
+      JRadioButtonMenuItem easy = new JRadioButtonMenuItem("Easy");
+      JRadioButtonMenuItem medium = new JRadioButtonMenuItem("Medium");
+      JRadioButtonMenuItem hard = new JRadioButtonMenuItem("Hard");
+      
+      group.add(easy);
       difficultyMenu.add(easy);
       difficultyMenu.addSeparator();
+      group.add(medium);
       difficultyMenu.add(medium);
       difficultyMenu.addSeparator();
+      group.add(hard);
       difficultyMenu.add(hard);
+      medium.setSelected(true);
+      SudokuGrid.medium = true;
+      
+      /**
+       * Action listener that changes the difficulty
+       * @param e is the event that easy is selected from the difficulty menu
+       **/
+       easy.addActionListener((ActionEvent e) -> {
+           SudokuGrid.medium = false;
+           SudokuGrid.hard = false;
+           SudokuGrid.easy = true;
+           
+           frame.getContentPane().removeAll();
+           frame.getContentPane().add(grid = new SudokuGrid(puzzleSize));
+           frame.pack();
+           centerView();
+       });
+       
+       /**
+        * Action listener that changes the difficulty
+        * @param e is the event that medium is selected from the difficulty menu
+        **/
+        medium.addActionListener((ActionEvent e) -> {
+        	SudokuGrid.easy = false;
+            SudokuGrid.hard = false;
+            SudokuGrid.medium = true;
+            
+            frame.getContentPane().removeAll();
+            frame.getContentPane().add(grid = new SudokuGrid(puzzleSize));
+            frame.pack();
+            centerView();
+        });
+        
+        /**
+         * Action listener that changes the difficulty
+         * @param e is the event that hard is selected from the difficulty menu
+         **/
+         hard.addActionListener((ActionEvent e) -> {
+        	 SudokuGrid.easy = false;
+             SudokuGrid.medium = false;
+             SudokuGrid.hard = true;
+             
+             frame.getContentPane().removeAll();
+             frame.getContentPane().add(grid = new SudokuGrid(puzzleSize));
+             frame.pack();
+             centerView();
+         });
       
       JButton newPuzzle = new JButton("Next Puzzle");
-      	//newPuzzle.setOpaque(true);
-      	//newPuzzle.setContentAreaFilled(false);
-      	//newPuzzle.setBorderPainted(false);
     	newPuzzle.setFont(textFont);
       	newPuzzle.setFocusable(false);
       	newPuzzle.addActionListener((ActionEvent e) -> {
-      		frame.setVisible(false);
-      		frame.dispose();
-      		if (Answer == 4)
-      			new SudokuJFrame(4, Answer);
-      		else
-      			new SudokuJFrame(9, Answer);
+      		frame.getContentPane().removeAll();
+            frame.getContentPane().add(grid = new SudokuGrid(puzzleSize));
+            frame.pack();
+            centerView();
       });
+      	
       //Builds the menu
       menuBar.add(optionMenu);
       menuBar.add(difficultyMenu);
@@ -97,7 +145,7 @@ public class SudokuJFrame {
       * @param e is the event that 4x4 is selected from the menu
       **/
       size4x4.addActionListener((ActionEvent e) -> {
-          Answer = 4;
+    	  puzzleSize = 4;
           frame.getContentPane().removeAll();
           frame.getContentPane().add(grid = new SudokuGrid(4));
           frame.pack();
@@ -109,7 +157,7 @@ public class SudokuJFrame {
       * @param e is the event that 9x9 is selected from the menu
       **/
       size9x9.addActionListener((ActionEvent e) -> {
-          Answer = 9;
+    	  puzzleSize = 9;
           frame.getContentPane().removeAll();
           frame.getContentPane().add(grid = new SudokuGrid(9));
           frame.pack();

@@ -17,14 +17,26 @@ import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.text.PlainDocument;
 
-
+/**
+* 
+* The SudokuGrid class creates the base for all
+* Sudoku Puzzles. To start, every 4x4 and 9x9
+* preset is included in this class. They are
+* activated by several switch statements to
+* access their respective difficulty. This class
+* also is the template for the grid for every
+* Sudoku puzzle which includes alignment, 
+* number formatting, and the button to solve
+* the current puzzle.
+* 
+**/
+@SuppressWarnings("serial")
 final class SudokuGrid extends JPanel {
 	
 	//Grid variables
@@ -37,16 +49,16 @@ final class SudokuGrid extends JPanel {
 	//Button variables
 	private final JPanel buttonPanel;
 	private final JButton solveButton;
-	private final JButton newPuzzleButton;
 	
 	//Puzzle boolean difficulties
 	public static boolean easy;
 	public static boolean medium;
 	public static boolean hard;
 	
-	//Puzzles
+	//////////PUZZLES//////////
 	
-	//4x4 puzzles
+	////////4x4 Puzzles////////
+	////////////EASY///////////
 	private final String[][] fourEasyFill1 = new String[][] {
 		{ "1",  "", "3", "4"  },
 		{ "3", "4",  "",  "2"  },
@@ -81,7 +93,8 @@ final class SudokuGrid extends JPanel {
 		{ "2",  "1",  "4",  "" },
 		{ "",  "3", "2", "1"  }
 	};
-	
+
+	///////////MEDIUM//////////	
 	private final String[][] fourMediumFill1 = new String[][] {
 		{ "",  "", "3", "1"  },
 		{ "1", "3",  "",  ""  },
@@ -117,6 +130,7 @@ final class SudokuGrid extends JPanel {
 		{ "",  "2", "4", ""  }
 	};
 	
+	////////////HARD///////////	
 	private final String[][] fourHardFill1 = new String[][] {
 		{ "1", "", "", ""  },
 		{ "3", "", "", ""  },
@@ -153,7 +167,8 @@ final class SudokuGrid extends JPanel {
 	};
 	
 	
-	//9x9 puzzles
+	//////////9x9 Puzzles//////////
+	/////////////EASY//////////////
 	private final String[][] nineEasyFill1 = new String[][] {
 		{ "", "", "", "", "", "3", "7", "6", "8" },
 		{ "6", "1", "", "", "", "8", "9", "", "" },
@@ -274,7 +289,7 @@ final class SudokuGrid extends JPanel {
 		{ "3", "", "5", "6", "", "8", "", "1", "2" }
 	};
 	
-
+	////////////MEDIUM/////////////
 	private final String[][] nineMediumFill1 = new String[][] {
 		{ "", "", "", "", "", "7", "", "5", "" },
 		{ "", "", "6", "3", "8", "", "9", "7", "" },
@@ -395,9 +410,7 @@ final class SudokuGrid extends JPanel {
 		{ "", "8", "6", "1", "", "", "", "", "" }
 	};
 	
-	
-	
-	
+	/////////////HARD//////////////	
 	private final String[][] nineHardFill1 = new String[][] {
 		{ "", "", "4", "", "8", "", "", "7", "" },
 		{ "7", "", "", "4", "", "2", "", "", "5" },
@@ -518,37 +531,39 @@ final class SudokuGrid extends JPanel {
 		{ "6", "", "", "5", "1", "", "", "", "" }
 	};
 	
-	SudokuGrid(int size) {
+	SudokuGrid (int size) {
 		
 		//Variable instantiations
 		this.grid = new JTextField[size][size];
 		this.gridPanel = new JPanel();
 		this.buttonPanel = new JPanel();
 		
-		//Creates a thin border to be used for each square and a thick border to be used around each section
+		/* Creates a thin border to be used for each square and a thick
+		 * border to be used around each section */
 		Border gridBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
 		Border sectionBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
 		
-		//Sets the individual box size to 60x60 pixels & the section size to a dynamic number of boxes based upon the dimensions
+		/* Sets the individual box size to 60x60 pixels & the section
+		 * size to a dynamic number of boxes based upon the dimensions */
 		Dimension fieldSize = new Dimension(60, 60);
 		int sectionSize = (int) Math.sqrt(size);
 		
-		//random number generator to select puzzle
+		//Random number generator to select puzzle
 		Random ran = new Random();
 		
 		//Sets the pre-made puzzle based upon grid size
 		String[][] numbersArr;
 		
-		//size is 4
+		//Size is 4
 		if(size == 4) {
-			
-			//random number from 1-5
+
+			//Random number from 1-5
 			int random = ran.nextInt(5) + 1;
 			
-			//easy is true
+			//Easy is true
 			if(easy == true) {
 				
-				//easy switch
+				//Easy switch
 				switch(random) {
 				
 				case 1: 
@@ -574,12 +589,12 @@ final class SudokuGrid extends JPanel {
 				default:
 					numbersArr = this.fourEasyFill5;
 					break;
-				
 				}
+			}
+			
+			else if(medium == true) {
 				
-			}else if(medium == true) {
-				
-				//medium switch
+				//Medium switch
                 switch(random) {
 				
 				case 1: 
@@ -605,12 +620,12 @@ final class SudokuGrid extends JPanel {
 				default:
 					numbersArr = this.fourMediumFill5;
 					break;
+				}	
+			}
+			
+			else if(hard == true) {
 				
-				}
-				
-			}else if(hard == true) {
-				
-				//hard switch
+				//Hard switch
                 switch(random) {
 				
 				case 1: 
@@ -636,20 +651,22 @@ final class SudokuGrid extends JPanel {
 				default:
 					numbersArr = this.fourHardFill5;
 					break;
-				
 				}
-			}else {
+			}
+			
+			else {
 				numbersArr = this.fourHardFill5;
 			}
-				
-		}else if(size == 9) {
+		}
+		
+		else if(size == 9) {
 			
-			//random number from 1-10
+			//Random number from 1-10
 			int random = ran.nextInt(10) + 1;
 			
 			if(easy == true) {
 				
-				//easy switch
+				//Easy switch
                 switch(random) {
 				
 				case 1: 
@@ -695,13 +712,12 @@ final class SudokuGrid extends JPanel {
 				default:
 					numbersArr = this.nineEasyFill10;
 					break;
-				
 				}
+			}
+			
+			else if(medium == true) {
 				
-				
-			}else if(medium == true) {
-				
-				//medium switch
+				//Medium switch
                 switch(random) {
 				
 				case 1: 
@@ -747,12 +763,12 @@ final class SudokuGrid extends JPanel {
 				default:
 					numbersArr = this.nineMediumFill10;
 					break;
-				
 				}
+			}
+			
+			else if(hard == true) {
 				
-			}else if(hard == true) {
-				
-				//hard switch
+				//Hard switch
                 switch(random) {
 				
 				case 1: 
@@ -798,25 +814,20 @@ final class SudokuGrid extends JPanel {
 				default:
 					numbersArr = this.nineHardFill10;
 					break;
-				
 				}
-				
-			}else {
+			}
+			
+			else {
 				numbersArr = this.nineHardFill10;
 			}
-		}else {
+		}
+		
+		else {
 			numbersArr = this.nineHardFill10;
 		}
 		
-		
-		
-		
-		
-		
-		/**
-		* Loop initiates the array of text fields that makes up the grid.
-		* Each field is bordered and the text is centered.
-		**/
+		/* Loop initiates the array of text fields that makes up the grid.
+		 * Each field is bordered and the text is centered. */
 		for (int row = 0; row < size; ++row) {
 			for (int col = 0; col < size; ++col) {
 				
@@ -825,11 +836,13 @@ final class SudokuGrid extends JPanel {
 				PlainDocument document = (PlainDocument) field.getDocument();
 			    document.setDocumentFilter(new FieldFilter(size));
 				
-			    //If there is a pre-set value for the given "box", display value and disallow editing
+			    /* If there is a pre-set value for the given "box", display value
+			     * and disallow editing */
 				if(!numbersArr[row][col].isEmpty()) {
 					field.setEditable(false);
 					field.setText(numbersArr[row][col]);
 				}
+				
 				grid[row][col] = field;
 				
 				//Formatting
@@ -846,7 +859,6 @@ final class SudokuGrid extends JPanel {
 	        	});
 			}
 		}
-		
 		
 		this.sectionSquares = new JPanel[sectionSize][sectionSize];
 		this.gridPanel.setLayout(new GridLayout(sectionSize, sectionSize));
@@ -878,47 +890,24 @@ final class SudokuGrid extends JPanel {
 		
 		//Reads in grid contents
 		solveButton.addActionListener((ActionEvent e) -> {
+			
 			for (int row = 0; row < size; ++row) {
 				for (int col = 0; col < size; ++col) {
 					numbersArr[row][col] =  grid[row][col].getText();
 				}
 			}
+			
 			if(SolutionChecker.checkSolution(numbersArr, size)) {
-				//do when solve is correct
+				//Do when solve is correct
 				JOptionPane.showMessageDialog(null, "Your solution is correct!");
 			}
+			
 			else {
-				//do when solve is incorrect
+				//Do when solve is incorrect
 				JOptionPane.showMessageDialog(null, "Your solution is incorrect.");
 			}
+			
 	      });
-		
-		//Creates a "Next Puzzle" button of static dimensions and defined font size
-		this.newPuzzleButton = new JButton("Next Puzzle");
-/*		newPuzzleButton.setPreferredSize(new Dimension(125, 40));
-		newPuzzleButton.setFont(ARIAL_SM);
-		
-		//Verifies action with user
-		newPuzzleButton.addActionListener((ActionEvent e) -> {
-			//JOptionPane.showMessageDialog(null, "Are you sure you wish to start a new puzzle?\nChanges will not be saved.");
-		
-			int dial
-		Object [] options = {"Yes", "No"};
-			JOptionPane.showOptionDialog(null, "Are you sure you wish to start a new puzzle?\nChanges will not be saved.", 
-					"Next Puzzle?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-			if (JOptionPane.showConfirmDialog(null, "Are you sure?", "WARNING",
-				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			}
-		
-		});
-		//Generate new puzzle after clicking "Next Puzzle" button       ----->
-		newPuzzleButton.addActionListener((ActionEvent e) -> {
-	      SudokuJFrame.getFrame().getContentPane().removeAll();
-          frame.getContentPane().add(grid = new SudokuGrid(4));
-          SudokuJFrame.getFrame().pack();
-          centerView();
-     
-		});*/
 		
 		
 		//Adds all items to the layout
@@ -928,6 +917,5 @@ final class SudokuGrid extends JPanel {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 		this.buttonPanel.add(solveButton, BorderLayout.CENTER);
 		buttonPanel.add(Box.createRigidArea(new Dimension(15,0)));
-		//this.buttonPanel.add(newPuzzleButton, BorderLayout.CENTER);
 	}
 }

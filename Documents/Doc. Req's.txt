@@ -1,0 +1,8 @@
+FieldFilter.java........Summary of entire java file
+SolutionChecker.java....Summary of entire java file
+Sudoku.java.............Summary of entire java file
+SudokuGrid.java.........Summary of entire java file
+	SudokuGrid (int size)...Method explanation
+SudokuJFrame.java.......Summary of entire java file
+	buildMenu ()............Elaborate more on method
+	centerView ()...........Elaborate more on method

@@ -10,6 +10,10 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * The FieldFilter class formats the input of a JTextField to only allow
+ * one character per box, only integers 1 to size
+ **/
 
 class FieldFilter extends DocumentFilter {
 	
@@ -19,6 +23,8 @@ class FieldFilter extends DocumentFilter {
     /**
      * Constructor
      * @param puzzleSize is the dimension of the puzzle (4 or 9)
+     * 
+     * Author: Kathleen Near
      */
 	public FieldFilter (int puzzleSize) {
 		size = puzzleSize;
@@ -27,13 +33,17 @@ class FieldFilter extends DocumentFilter {
 	/**
      * Getter method
      * @return the class variable size
+     * 
+     * Author: Kathleen Near
      */
-	public int getPuzzleSize() { return size; }
-	
-	
+	public int getPuzzleSize() {
+		return size;
+	}
 	
 	/**
      * Bypasses the document filter and inserts the specified text
+     * 
+     * Author: Kathleen Near
      */
 	 @Override
     public void insertString(FilterBypass fbypass, int offset, String text, AttributeSet attrSet) throws BadLocationException {
@@ -42,6 +52,8 @@ class FieldFilter extends DocumentFilter {
 
 	/**
      * Deletes text from offset to offset + length, replacing it with the specified text
+     * 
+     * Author: Kathleen Near
      */
     @Override
     public void replace(FilterBypass fbypass, int offset, int length, String text, AttributeSet attrSet) throws BadLocationException {
@@ -50,6 +62,8 @@ class FieldFilter extends DocumentFilter {
 
 	/**
      * Revises the string based upon what characters are accepted
+     * 
+     * Author: Kathleen Near
      */
     private String revise(String text) {
         StringBuilder builder = new StringBuilder(text);

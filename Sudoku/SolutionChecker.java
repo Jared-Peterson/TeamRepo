@@ -6,25 +6,34 @@
 //		   Olivas, Tanya
 //		   Peterson, Jared
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * The SudokuGrid class creates the GUI grid on which the puzzle will be presented and
+ * The SolutionChecker class applies the rules of Sudoku:
+ * 	- Each box can contain only one number 1 to size
+ * 	- Each number can only appear once per row, column, and section
+ * and returns whether or not the solution is valid (true if valid, false if not)
+ **/
 
 public class SolutionChecker{
 	
 	/**
-     * Translates a Sudoku grid's content to a 2-D integer array, and calls
-     * the solutionIsCorrect method to check the 2-D integer array.
-     * @param gridContents is the contents of a 2-D grid of text fields
+     * Translates a Sudoku grid's content into a 2-D integer array, then utilizes the
+     * solutionIsCorrect method to verify the solution with respect to Sudoku's rules.
+     * @param gridContents is the contents of the grid's text fields
      * @param puzzleSize is the size of the grid (length and width in text field boxes)
      * Returns true if the solution is correct, otherwise returns false
      * 
      * Author: Jared Peterson
      **/
-	public static boolean checkSolution(String gridContents[][], int puzzleSize) {
+	public static boolean inputIsValid(String gridContents[][], int puzzleSize) {
 		
-		//creates 2-D integer array
+		//Creates 2-D integer array to store the solution
 		int[][] intGridContents = new int [puzzleSize][puzzleSize];
 		
-		//Converts the text fields to integers
+		//Converts the text field strings to integers
 		for (int row = 0; row < puzzleSize; ++row) {
 			for (int col = 0; col < puzzleSize; ++col) {
 				try {
@@ -35,45 +44,45 @@ public class SolutionChecker{
 				}
 			}
 		}
-		//Cross-check each entry of the solution and return overall validity
-		if(solutionIsCorrect(intGridContents, puzzleSize)) {
+		//Cross-checks each entry of the solution and returns the overall validity
+		if(solutionIsValid(intGridContents, puzzleSize)) {
 			return true;
 		}
 		return false;
 	}
 	
 	/**
-     * Checks the assortment of the numbers in a full Sudoku grid
+     * Checks the validity of the assortment of numbers in each grid, column, and section
      * @param intGridContents is the contents of the Sudoku grid in integer form
      * @param puzzleSize is the size of the grid (in text field boxes)
      * Returns true if the solution is correct, and false if incorrect
      * 
      * Author: Jared Peterson
      **/
-	public static boolean solutionIsCorrect(int intGridContents[][], int puzzleSize) {
+	public static boolean solutionIsValid(int intGridContents[][], int puzzleSize) {
 		
-		//boolean variable to be returned
-	    boolean solved = false;
+		//Boolean variable to store the result
+	    boolean isSolved = false;
 	    
 	    //Traverses the entire 2-D array and checks each number's placement 
-	    //in respect to the rest of its row, column, and section.
+	    //(in respect to the rest of its row, column, and section)
 		for (int row = 0; row < puzzleSize; ++row) {
 			for (int col = 0; col < puzzleSize; ++col) {
 				
 				if( checkRow( intGridContents, row, puzzleSize )
 					&& checkCol( intGridContents, col, puzzleSize )
-					&& checkBox( intGridContents, row, col, puzzleSize )) {
-					solved = true;
+					&& checkSection( intGridContents, row, col, puzzleSize )) {
+					isSolved = true;
 				}else {
-					solved = false;
+					isSolved = false;
 					break;
 				}
 			}
-			if(solved == false) {
+			if(isSolved == false) {
 				break;
 			}
 		}
-		return solved;
+		return isSolved;
 	}
 
 	/**
@@ -87,13 +96,13 @@ public class SolutionChecker{
      **/
 	protected static boolean checkRow(int intGridContents[][], int row, int puzzleSize) {
 		
-		//creates a set of integers 1-puzzleSize
+		//Creates a set of integers from 1 to puzzleSize
 		Set<Integer> numSet = new HashSet<>();
 		for(int i = 1; i <= puzzleSize; i++) {
 			numSet.add(i);
 		}
 		int temp;
-		//checks given column
+		//Checks the given column for validity (no empty fields or duplicates)
 		for( int col = 0; col < puzzleSize; col++ ) {
 			 if(numSet.isEmpty()) {
 				 return true;
@@ -119,13 +128,13 @@ public class SolutionChecker{
      **/
 	protected static boolean checkCol(int intGridContents[][], int col, int puzzleSize) {
 		
-		//creates a set of numbers 1-puzzleSize
+		//Creates a set of integers from 1 to puzzleSize
 		Set<Integer> numSet = new HashSet<>();
 		for(int i = 1; i <= puzzleSize; i++) {
 			numSet.add(i);
 		}
 		int temp;
-		//checks given row
+		//Checks given row for validity (no empty fields or duplicates)
 		for( int row = 0; row < puzzleSize; row++ ) {
 			if(numSet.isEmpty()) {
 				return true;
@@ -150,18 +159,19 @@ public class SolutionChecker{
      * 
      * Author: Jared Peterson
      **/
-	protected static boolean checkBox(int intGridContents[][], int row, int col, int puzzleSize) {
+	protected static boolean checkSection(int intGridContents[][], int row, int col, int puzzleSize) {
 		
-		//uses integer division to place row and col to the beginning of the box that it will check
+		//Uses integer division to place row and col to the beginning of the box being checked
 	    row = (int)(row / Math.sqrt(puzzleSize)) * (int)Math.sqrt(puzzleSize);
 	    col = (int)(col / Math.sqrt(puzzleSize)) * (int)Math.sqrt(puzzleSize);
-	    //creates a set of numbers 1-puzzleSize
+	    
+	    //Creates a set of integers from 1 to puzzleSize
 	    Set<Integer> numSet = new HashSet<>();
 		for(int i = 1; i <= puzzleSize; i++) {
 		   numSet.add(i);
 		}
 	    int temp;
-	    //checks given box
+	    //Checks given box for validity (no empty fields or duplicates)
 	    for( int r = 0; r < Math.sqrt(puzzleSize); r++ ) {
 	       for( int c = 0; c < Math.sqrt(puzzleSize); c++ ) {
 	          if(numSet.isEmpty()) {

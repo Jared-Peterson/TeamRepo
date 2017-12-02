@@ -22,7 +22,7 @@ class FieldFilter extends DocumentFilter {
 	
     /**
      * Constructor
-     * @param puzzleSize is the dimension of the puzzle (4 or 9)
+     * @param puzzleSize is the dimension of the puzzle (4 for 4x4 or 9 for 9x9)
      * 
      * Author: Kathleen Near
      */

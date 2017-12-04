@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The SudokuGrid class creates the GUI grid on which the puzzle will be presented and
  * The SolutionChecker class applies the rules of Sudoku:
  * 	- Each box can contain only one number 1 to size
  * 	- Each number can only appear once per row, column, and section

@@ -8,7 +8,7 @@ Sudoku rules are as follows:
 - Each digit must appear once (and only once) in its row, column, and section.
 
 This program provides a graphical user interface that can be used to play Sudoku. The user may choose between 9x9 and 4x4 puzzles of difficulty easy, medium, or hard from the menu bar. The default is 9x9 medium difficulty since this size of puzzle is traditional. The user may click "Next Puzzle" to access another pre-made puzzle (will ask for confirmation) or "Solve" to check whether or not a solution is correct.
-Note: The program will terminate upon the window being closed, and progress/soultions are not saved (they only remain on the page while the given puzzle is in use).
+Note: The program will terminate upon the window being closed, and progress/solutions are not saved (they only remain on the page while the given puzzle is in use).
 
 ---
 
